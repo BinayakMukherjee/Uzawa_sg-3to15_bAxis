@@ -284,7 +284,7 @@ def coeff_E7_E8(h, k, l):
 def coeff_E7_E9(h, k, l):
     coeff = 0
     for i in range(0, len(h)):
-        coeff = coeff + 32 * (h[i] ** 4) * (k[i] ** 4)
+        coeff = coeff + 32 * (h[i] ** 4) * (k[i] ** 2) * (l[i] ** 2)
     return coeff
 # ----------------------------------#
 def coeff_E8_E8(h, k, l):
@@ -367,7 +367,7 @@ def coeff_E8(h, k, l, gamma_expt):
 def coeff_E9(h, k, l, gamma_expt):
     coeff = 0
     for i in range(0, len(h)):
-        coeff = coeff - 8 * (gamma_expt[i]) * (k[i]) * (h[i]) * (l[i] ** 2)
+        coeff = coeff - 8 * (gamma_expt[i]) * (h[i]) * (k[i]) * (l[i] ** 2)
     return coeff
 
 # ----------------------------------#
@@ -400,7 +400,7 @@ def iterate(A, b, C, seed_u, seed_lambda):
     #print(u0)
     iteration = 0
     for iteration in range (0,100000,1):
-        lambda1 = numpy.maximum(lambda0 + 0.8 * (C @ u0), numpy.zeros(23))
+        lambda1 = numpy.maximum(lambda0 + 0.8 * (C @ u0), numpy.zeros(207))
         #print("lambda 1 ", lambda1)
         # print(b.transpose()-(numpy.matrix.transpose(C) @ lambda1))
         # print(numpy.linalg.inv(A))
@@ -438,9 +438,8 @@ def main():
         l.append(int(row[2]))
     E_expt_list = (read_integers('E_expt.txt'))
     E_expt = numpy.asarray(E_expt_list)
-    gamma_expt = [-279.03,-135.39,-55.25,-400.64,-187.92,-1412.60,-1227.65,-1169.31,-1483.39,-594.79,-2174.02,
-    -1858.33,-195.07,-4464.52,-4411.03,-2166.28,-3064.74,-1349.88,-1040.29,-6349.12,-3599.96,-1863.09,-3006.65] #gamma(h,k,l,E_expt) #
-    print("Initial gamma's:", gamma_expt)
+    gamma_expt = gamma(h,k,l,E_expt)
+    #print("Initial gamma's:", gamma_expt)
     # print(h)
     # print(k)
     # print(l)
